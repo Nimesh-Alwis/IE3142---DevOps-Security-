@@ -1,5 +1,6 @@
 # IE3142 – DevOps Security
 ## Revision Paper 05
+[← Previous: Revision Paper 04](IE3142_Revision_Paper_04.md) | [All Revision Papers →](../README.md#revision-papers-5)
 **Duration:** 2 Hours  
 **Total Marks:** 75 *(MCQ section intentionally omitted)*
 

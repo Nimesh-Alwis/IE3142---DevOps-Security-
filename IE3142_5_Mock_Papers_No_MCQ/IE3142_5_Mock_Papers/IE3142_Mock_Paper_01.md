@@ -1,5 +1,6 @@
 # IE3142 – DevOps Security
 ## Mock Final Paper 01
+[← All Mock Papers](../../README.md#mock-papers-5) | [Next: Mock Paper 02 →](IE3142_Mock_Paper_02.md)
 ### Duration: 2 Hours
 ### Instructions
 - Follows the provided final-exam structure.
