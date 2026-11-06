@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>IE3142 — DevOps Security: Ultimate Lecture & Exam Reference Sheet (V2)</title>
+<style>
+  /* ========================================================================= */
+  /* STRICT A4 DIMENSIONS & 5MM MARGINS (PRINTABLE AREA: 200mm x 287mm)       */
+  /* ========================================================================= */
+  @page {
+    size: A4 portrait;
+    margin: 5mm;
+  }
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  html, body {
+    width: 200mm;
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+    color: #0f172a;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 6.7pt;
+    line-height: 1.21;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* PAGE CONTAINER: EXACT A4 HEIGHT MINUS 10MM = 287MM */
+  .page {
+    width: 200mm;
+    height: 287mm;
+    max-height: 287mm;
+    overflow: hidden;
+    position: relative;
+    page-break-after: always;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #ffffff;
+  }
+  .page:last-child {
+    page-break-after: avoid;
+  }
+
+  /* MICRO HEADER */
+  .micro-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1.4px solid #1e3a8a;
+    padding-bottom: 0.7mm;
+    margin-bottom: 0.7mm;
+    flex-shrink: 0;
+  }
+  .micro-title {
+    font-size: 8.3pt;
+    font-weight: 800;
+    color: #1e3a8a;
+    letter-spacing: -0.2px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .micro-badge {
+    background: #1e3a8a;
+    color: #ffffff;
+    font-size: 5.8pt;
+    font-weight: 800;
+    padding: 1px 4px;
+    border-radius: 2px;
+  }
+  .micro-meta {
+    font-size: 5.8pt;
+    color: #475569;
+    font-weight: 600;
+  }
+
+  /* DUAL ROUTER: LECTURE ROUTER + EXAM QUESTION ROUTER */
+  .router-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7mm;
+    margin-bottom: 0.9mm;
+    flex-shrink: 0;
+  }
+  .topic-router {
+    background: #f8fafc;
+    border: 0.6px solid #cbd5e1;
+    border-radius: 2px;
+    padding: 0.5mm 0.8mm;
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 1px;
+    text-align: center;
+  }
+  .router-cell {
+    border-right: 0.4px solid #cbd5e1;
+    padding: 0 1px;
+  }
+  .router-cell:last-child {
+    border-right: none;
+  }
+  .router-cell .lec {
+    font-size: 5.7pt;
+    font-weight: 800;
+    color: #1e3a8a;
+    display: block;
+  }
+  .router-cell .desc {
+    font-size: 4.7pt;
+    color: #334155;
+    line-height: 1.05;
+    display: block;
+    font-weight: 500;
+  }
+
+  .exam-router {
+    background: #eff6ff;
+    border: 0.6px solid #93c5fd;
+    border-radius: 2px;
+    padding: 0.5mm 1.0mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 5.2pt;
+    color: #1e3a8a;
+  }
+  .exam-router b {
+    color: #1e40af;
+  }
+  .exam-tag {
+    background: #ffffff;
+    border: 0.4px solid #bfdbfe;
+    padding: 0.5px 3px;
+    border-radius: 2px;
+    font-weight: 700;
+  }
+
+  /* 3-COLUMN LAYOUT */
+  .columns-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.6mm;
+    flex: 1;
+    overflow: hidden;
+  }
+  .column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1mm;
+    border-right: 0.4px solid #e2e8f0;
+    padding-right: 1.4mm;
+  }
+  .column:last-child {
+    border-right: none;
+    padding-right: 0;
+  }
+
+  /* SECTION CARDS */
+  .card {
+    border: 0.4px solid #cbd5e1;
+    border-radius: 2px;
+    background: #ffffff;
+    overflow: hidden;
+  }
+  .card-header {
+    padding: 0.6mm 1.0mm;
+    font-size: 6.7pt;
+    font-weight: 800;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 0.4px solid #cbd5e1;
+    line-height: 1.12;
+  }
+  .card-header.c-blue   { background: #eff6ff; color: #1e40af; border-bottom-color: #bfdbfe; }
+  .card-header.c-green  { background: #f0fdf4; color: #166534; border-bottom-color: #bbf7d0; }
+  .card-header.c-purple { background: #faf5ff; color: #6b21a8; border-bottom-color: #e9d5ff; }
+  .card-header.c-orange { background: #fff7ed; color: #9a3412; border-bottom-color: #fed7aa; }
+  .card-header.c-pink   { background: #fdf2f8; color: #9d174d; border-bottom-color: #fbcfe8; }
+  .card-header.c-teal   { background: #f0fdfa; color: #115e59; border-bottom-color: #99f6e4; }
+  .card-header.c-amber  { background: #fefce8; color: #854d0e; border-bottom-color: #fef08a; }
+  .card-header.c-indigo { background: #eef2ff; color: #3730a3; border-bottom-color: #c7d2fe; }
+
+  .badge {
+    font-size: 5.0pt;
+    font-weight: 700;
+    padding: 0.5px 2.5px;
+    border-radius: 2px;
+    background: rgba(0,0,0,0.06);
+  }
+  .card-body {
+    padding: 0.8mm 1.0mm;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6mm;
+  }
+
+  /* TYPOGRAPHY */
+  b, strong { font-weight: 700; color: #090d16; }
+  .sub-head {
+    font-size: 6.0pt;
+    font-weight: 800;
+    color: #1e293b;
+    border-bottom: 0.3px dashed #cbd5e1;
+    padding-bottom: 0.15mm;
+    margin-top: 0.25mm;
+    margin-bottom: 0.15mm;
+    text-transform: uppercase;
+    letter-spacing: 0.1px;
+  }
+  ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  li {
+    position: relative;
+    padding-left: 1.9mm;
+    margin-bottom: 0.3mm;
+  }
+  li::before {
+    content: "▪";
+    position: absolute;
+    left: 0;
+    color: #2563eb;
+    font-size: 4.9pt;
+    top: -0.1mm;
+  }
+  li:last-child { margin-bottom: 0; }
+
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 5.7pt;
+    line-height: 1.14;
+    margin: 0.2mm 0;
+  }
+  th, td {
+    border: 0.35px solid #cbd5e1;
+    padding: 0.45mm 0.65mm;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: #f1f5f9;
+    font-weight: 700;
+    color: #1e293b;
+  }
+  tr:nth-child(even) td {
+    background: #f8fafc;
+  }
+
+  /* CODE BOX */
+  .code-box {
+    background: #0f172a;
+    color: #f8fafc;
+    font-family: Consolas, "Liberation Mono", Courier, monospace;
+    font-size: 5.2pt;
+    line-height: 1.15;
+    padding: 0.5mm 0.7mm;
+    border-radius: 2px;
+    margin: 0.2mm 0;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .good { color: #4ade80; }
+  .bad  { color: #f87171; }
+
+  /* COMPACT FLOW DIAGRAMS */
+  .flow-seq {
+    background: #f8fafc;
+    border: 0.4px solid #cbd5e1;
+    border-radius: 2px;
+    padding: 0.5mm 0.7mm;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 5.3pt;
+    font-weight: 700;
+    margin: 0.2mm 0;
+  }
+  .f-node {
+    background: #ffffff;
+    border: 0.35px solid #94a3b8;
+    padding: 0.5px 2px;
+    border-radius: 1.5px;
+    color: #1e3a8a;
+  }
+  .f-arr {
+    color: #64748b;
+    font-weight: 900;
+    font-size: 5.3pt;
+  }
+
+  /* INTENTIONAL BLANK NOTES SECTION ACROSS BOTTOM */
+  .notes-panel {
+    border: 0.8px dashed #94a3b8;
+    border-radius: 2.5px;
+    background: #fafafa;
+    padding: 0.7mm 1.5mm;
+    margin-top: 0.8mm;
+    flex-shrink: 0;
+  }
+  .notes-header {
+    font-size: 5.7pt;
+    font-weight: 800;
+    color: #475569;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 0.4px solid #cbd5e1;
+    padding-bottom: 0.25mm;
+    margin-bottom: 0.5mm;
+  }
+  .notes-lines {
+    height: 25mm;
+    background-image: linear-gradient(to bottom, transparent 90%, #cbd5e1 90%);
+    background-size: 100% 3.5mm;
+  }
+</style>
+</head>
+<body>
+
+<!-- ========================================================================= -->
+<!-- PAGE 1 (SIDE A): DEVSECOPS, SHIFT-LEFT, SECURE CODING, DESIGN, STRIDE, INFRA -->
+<!-- ========================================================================= -->
+<div class="page">
+  <!-- MICRO HEADER -->
+  <div class="micro-header">
+    <div class="micro-title">
+      <span class="micro-badge">IE3142</span> DEVOPS SECURITY — EXAM REFERENCE SHEET (SIDE A)
+    </div>
+    <div class="micro-meta">
+      Shift-Left Architecture, Secure Coding, 12 Design Principles, STRIDE & Infrastructure | Page 1 of 2
+    </div>
+  </div>
+
+  <!-- DUAL ROUTER -->
+  <div class="router-container">
+    <div class="topic-router">
+      <div class="router-cell"><span class="lec">LEC 01</span><span class="desc">Shift-Left & SDLC</span></div>
+      <div class="router-cell"><span class="lec">LEC 02</span><span class="desc">Secure Coding & Habits</span></div>
+      <div class="router-cell"><span class="lec">LEC 03</span><span class="desc">12 Principles & STRIDE</span></div>
+      <div class="router-cell"><span class="lec">LEC 04</span><span class="desc">Infra, Cloud & Network</span></div>
+      <div class="router-cell"><span class="lec">LEC 05</span><span class="desc">Docker, K8s & RBAC</span></div>
+      <div class="router-cell"><span class="lec">LEC 06</span><span class="desc">CI/CD, SAST/DAST/SCA</span></div>
+      <div class="router-cell"><span class="lec">LEC 07</span><span class="desc">SIEM, Logs & IR 6-Steps</span></div>
+      <div class="router-cell"><span class="lec">LEC 08</span><span class="desc">GRC, GDPR & HIPAA</span></div>
+      <div class="router-cell"><span class="lec">LEC 10</span><span class="desc">Serverless & DoW</span></div>
+    </div>
+    <div class="exam-router">
+      <span><b>FINAL EXAM ROUTER:</b></span>
+      <span class="exam-tag"><b>Q1 MCQs:</b> All Lectures (25 Marks)</span>
+      <span class="exam-tag"><b>Q2 Structured:</b> STRIDE (L03) · CI/CD Gates (L06) · Docker Arch (L05) (25M)</span>
+      <span class="exam-tag"><b>Q3 Bank Essay:</b> Shift-Left (L01) · Secure Coding (L02) · STRIDE (L03) · Infra (L04) (25M)</span>
+      <span class="exam-tag"><b>Q4 Health Essay:</b> CI/CD (L06) · Docker/K8s (L05) · GRC/GDPR (L08) · CSM/IR (L07) (25M)</span>
+    </div>
+  </div>
+
+  <!-- 3 COLUMNS -->
+  <div class="columns-grid">
+    
+    <!-- COLUMN 1: LECTURE 01 & LECTURE 02 -->
+    <div class="column">
+      
+      <!-- LEC 01: DEVSECOPS & SHIFT-LEFT -->
+      <div class="card">
+        <div class="card-header c-blue">
+          <span>1. DevSecOps & Shift-Left SDLC</span>
+          <span class="badge">LEC 01 | Q1, Q3</span>
+        </div>
+        <div class="card-body">
+          <p><b>DevSecOps:</b> Integrating security across every phase of SDLC. Security is a <b>shared responsibility</b> of Dev, Sec, and Ops (not an isolated final gate).</p>
+          <p><b>Shift Left:</b> Moving security activities to the <i>earliest stages</i> (Requirements & Design) instead of waiting for pre-release testing.</p>
+          
+          <div class="sub-head">Relative Cost of Fixing Defects (Cost Multiplier)</div>
+          <table>
+            <tr><th>SDLC Phase</th><th>Activity / Security Control</th><th>Cost Multiplier</th></tr>
+            <tr><td><b>1. Requirements</b></td><td>Security & abuse cases, compliance goals</td><td><b>1×</b> (Cheapest)</td></tr>
+            <tr><td><b>2. Design</b></td><td><b>Threat modeling (STRIDE)</b>, secure arch</td><td><b>5×</b></td></tr>
+            <tr><td><b>3. Coding</b></td><td>Secure coding, pre-commit hooks, IDE lint</td><td><b>10×</b></td></tr>
+            <tr><td><b>4. Build / Test</b></td><td>SAST, SCA, secrets scan, DAST, gates</td><td><b>15×</b></td></tr>
+            <tr><td><b>5. Production</b></td><td>Breach, emergency hotfix, legal fines</td><td><b>100×</b> (Disastrous)</td></tr>
+          </table>
+
+          <div class="sub-head">Traditional SDLC vs DevOps vs DevSecOps</div>
+          <table>
+            <tr><th>Aspect</th><th>Traditional</th><th>DevOps</th><th>DevSecOps</th></tr>
+            <tr><td>Speed</td><td>Slow, quarterly</td><td>Rapid, continuous</td><td>Rapid & secure</td></tr>
+            <tr><td>Security</td><td>Perimeter gate at end</td><td>Often bypassed</td><td>Built-in automated</td></tr>
+            <tr><td>Owner</td><td>Isolated Sec team</td><td>Dev & Ops</td><td><b>Shared by all</b></td></tr>
+          </table>
+          <p><b>Cost & Security Benefits:</b> Early detection lowers rework cost; automated pipeline checks provide fast feedback, prevent human error, and stop bad code from reaching prod.</p>
+        </div>
+      </div>
+
+      <!-- LEC 02: SECURE CODING PRACTICES -->
+      <div class="card">
+        <div class="card-header c-green">
+          <span>2. Five Core Secure Coding Practices</span>
+          <span class="badge">LEC 02 | Q1, Q3(b)</span>
+        </div>
+        <div class="card-body">
+          <p><b>1. Parameterized Queries (Prepared Statements):</b> Defeats SQLi (OWASP A03). Database treats user input strictly as <i>literal data</i>, never executable SQL command.</p>
+          <div class="code-box"><span class="bad">// VULNERABLE:</span> "SELECT * FROM users WHERE name = '" + name + "'"
+<span class="good">// SECURE:</span> cursor.execute("SELECT * FROM users WHERE name = %s", (name,))</div>
+
+          <p><b>2. Allow-list Input Validation:</b> Define allowed chars, length, type, regex (e.g. `/^[a-zA-Z0-9_]{3,20}$/`). <b>Fails closed</b> against unknown attacks. Reject invalid input (never "sanitize & use"). Canonicalize/decode <i>before</i> validation.</p>
+
+          <p><b>3. Context-Aware Output Encoding:</b> Defeats XSS (A03). Converts special characters to safe entities (`&lt;` &rarr; `&amp;lt;`, `&gt;` &rarr; `&amp;gt;`, `"` &rarr; `&amp;quot;`) at browser display time.</p>
+
+          <p><b>4. Memory-Hard Password Hashing:</b> Never use MD5/SHA-1/SHA-256. Use <b>Argon2id</b>, <b>bcrypt</b> (work factor &ge; 12), or <b>PBKDF2</b> with unique salt per user to defeat GPU brute-force.</p>
+
+          <p><b>5. Complete Mediation & Server-Side AuthZ:</b> Verify authentication & role on <i>every request</i>. Never trust client-side flags.</p>
+          <div class="code-box"><span class="good">if (user.role != "ADMIN") return response.status(403).send("Forbidden");</span></div>
+
+          <p><b>DB Least Privilege:</b> App DB user gets only `SELECT, INSERT, UPDATE` (never `DROP`, `ALTER`, or `GRANT`).</p>
+          <div class="sub-head">AuthN vs AuthZ & Secure Logging</div>
+          <ul>
+            <li><b>AuthN:</b> Validating identity (MFA, password, WebAuthn).</li>
+            <li><b>AuthZ:</b> Enforcing permissions (RBAC, ABAC, least privilege).</li>
+            <li><b>Log MUST include:</b> UTC timestamp (NTP), user ID, IP, event, result.</li>
+            <li><b>Log NEVER contains:</b> Passwords, API tokens, PAN (credit card), PII.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- COLUMN 2: LECTURE 03 (DESIGN & STRIDE) -->
+    <div class="column">
+      
+      <!-- LEC 03: 12 SECURE DESIGN PRINCIPLES -->
+      <div class="card">
+        <div class="card-header c-purple">
+          <span>3. Complete 12 Secure Design Principles</span>
+          <span class="badge">LEC 03 | Q1</span>
+        </div>
+        <div class="card-body">
+          <table>
+            <tr><th>Principle</th><th>Exam Definition & Implementation</th></tr>
+            <tr><td><b>Defense in Depth</b></td><td>Layered controls; if one fails, next blocks attack (WAF + mTLS + DB encryption).</td></tr>
+            <tr><td><b>Fail Securely</b></td><td>On error/exception, lock system state and revoke access (fail closed, not open).</td></tr>
+            <tr><td><b>Least Privilege</b></td><td>Grant minimum permissions required for task, for the minimum duration.</td></tr>
+            <tr><td><b>Fail-Safe Defaults</b></td><td>Default state is deny/no access until explicitly granted (e.g. firewall deny-all).</td></tr>
+            <tr><td><b>Secure Defaults</b></td><td>Out-of-box config has highest security enabled (require password change, TLS).</td></tr>
+            <tr><td><b>Minimize Surface</b></td><td>Disable unused ports, remove dead endpoints, prune dependencies.</td></tr>
+            <tr><td><b>Separation of Duties</b></td><td>Require &ge; 2 distinct parties for sensitive actions (e.g. dev cannot merge).</td></tr>
+            <tr><td><b>Complete Mediation</b></td><td>Validate authorization on <b>every access attempt</b>; never cache past checks.</td></tr>
+            <tr><td><b>Economy of Mechanism</b></td><td>Keep design as simple and small as possible; simplicity prevents flaws.</td></tr>
+            <tr><td><b>Open Design</b></td><td>Security must not depend on secret algorithms; assume attacker knows design.</td></tr>
+            <tr><td><b>Least Common Mech.</b></td><td>Minimize shared state/resources between users to prevent covert channels.</td></tr>
+            <tr><td><b>Psych. Acceptability</b></td><td>Security must be easy and seamless so users do not bypass it.</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- THREAT MODELING, STRIDE & DREAD -->
+      <div class="card">
+        <div class="card-header c-indigo">
+          <span>4. Threat Modeling, STRIDE & DREAD</span>
+          <span class="badge">LEC 03 | Q1, Q2(i), Q3(c)</span>
+        </div>
+        <div class="card-body">
+          <p><b>Threat Modeling:</b> Structured process in <b>Design Phase</b> to identify, analyze, and mitigate threats before code is written.</p>
+          <p><b>4 Core Questions:</b> 1. What are we building? 2. What can go wrong? 3. What will we do about it? 4. Did we do a good job?</p>
+          <p><b>Why in Design Phase?</b> Shift Left: architectural flaws are caught before implementation; saves rework costs; establishes test cases & security requirements.</p>
+          <p><b>Assets:</b> High-value targets (Student/Patient data, credentials, exam questions, marks/results, transactions, audit logs, API keys).</p>
+          <p><b>Trust Boundary:</b> Where data passes between different privilege levels (e.g. Client Browser &rarr; API Gateway &rarr; DB Server).</p>
+
+          <div class="sub-head">STRIDE Threat Classification & Controls</div>
+          <table>
+            <tr><th>Threat</th><th>Violates</th><th>Exam Scenario Example & Control</th></tr>
+            <tr><td><b>S – Spoofing</b></td><td>Authentication</td><td>Attacker logs in with stolen user password. &rarr; <i>MFA, strong password policy, account lockout</i></td></tr>
+            <tr><td><b>T – Tampering</b></td><td>Integrity</td><td>Student/attacker alters marks or transaction amounts. &rarr; <i>Server-side validation, HMAC, digital signatures</i></td></tr>
+            <tr><td><b>R – Repudiation</b></td><td>Accountability</td><td>Lecturer/user denies altering marks/sending money. &rarr; <i>Tamper-proof audit logs + UTC time</i></td></tr>
+            <tr><td><b>I – Info Disclosure</b></td><td>Confidentiality</td><td>SQLi exposes student marks or patient records. &rarr; <i>Parameterized queries, AES-256, TLS 1.3</i></td></tr>
+            <tr><td><b>D – Denial of Svc</b></td><td><b>Availability</b></td><td>Flooding results portal with requests on release day. &rarr; <i>Rate limiting, WAF, auto-scaling</i></td></tr>
+            <tr><td><b>E – Elev. of Priv.</b></td><td>Authorization</td><td>Student calls `/admin/users` directly. &rarr; <i>RBAC, server-side role check, least privilege</i></td></tr>
+          </table>
+
+          <div class="sub-head">DREAD Risk Scoring & Risk Treatments</div>
+          <p><b>DREAD Formula:</b> <b>Risk Score = (Damage + Reproducibility + Exploitability + Affected Users + Discoverability) &divide; 5</b> (Scale 1–10). Score &ge; 7.0 = High Priority.</p>
+          <p><b>4 Treatments:</b> <b>Mitigate</b> (controls), <b>Avoid</b> (drop feature), <b>Transfer</b> (cyber insurance/SaaS SLA), <b>Accept</b> (signed executive approval).</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- COLUMN 3: LECTURE 04 (INFRASTRUCTURE & CLOUD) -->
+    <div class="column">
+      
+      <!-- LEC 04: INFRASTRUCTURE & CLOUD SECURITY -->
+      <div class="card">
+        <div class="card-header c-orange">
+          <span>5. Infrastructure & Cloud Security</span>
+          <span class="badge">LEC 04 | Q1, Q3(d)</span>
+        </div>
+        <div class="card-body">
+          <p><b>Cloud Shared Responsibility:</b> CSP manages <b>Security OF the Cloud</b> (physical DC, hardware, hypervisors). Customer manages <b>Security IN the Cloud</b> (data, IAM, guest OS, network config, apps).</p>
+          
+          <div class="sub-head">Cloud Service Models Responsibility</div>
+          <table>
+            <tr><th>Model</th><th>CSP Manages</th><th>Customer Responsible</th></tr>
+            <tr><td><b>IaaS</b> (EC2)</td><td>Hardware, facilities, hypervisor</td><td><b>Guest OS patching</b>, apps, IAM, data</td></tr>
+            <tr><td><b>PaaS</b> (RDS)</td><td>Hardware, OS, DB engine</td><td>App code, DB schemas, IAM, data</td></tr>
+            <tr><td><b>SaaS</b> (O365)</td><td>Entire infrastructure & application</td><td>User access, data classification</td></tr>
+          </table>
+
+          <div class="sub-head">AWS vs Azure Security Services Mapping</div>
+          <table>
+            <tr><th>Capability</th><th>AWS Service</th><th>Azure Service</th></tr>
+            <tr><td>Identity & Access</td><td>AWS IAM / SSO</td><td>Microsoft Entra ID</td></tr>
+            <tr><td>API Activity Audit</td><td>CloudTrail</td><td>Azure Activity Log</td></tr>
+            <tr><td>Resource Monitoring</td><td>CloudWatch</td><td>Azure Monitor</td></tr>
+            <tr><td>Threat Detection</td><td>GuardDuty / Sec Hub</td><td>Defender for Cloud</td></tr>
+            <tr><td>Secrets & Encryption</td><td>KMS / Secrets Mgr</td><td>Azure Key Vault</td></tr>
+            <tr><td>Network Filtering</td><td>Security Groups / NACLs</td><td>NSGs / Azure Firewall</td></tr>
+          </table>
+
+          <div class="sub-head">Three Core Infra Protections (Bank Scenario)</div>
+          <ul>
+            <li><b>1. Network Segmentation & Private Subnets:</b> Place DB (RDS) in private subnet with no public IP. Security groups allow port 3306 <i>only</i> from API tier. WAF on public ALB/Gateway.</li>
+            <li><b>2. IAM Least Privilege & MFA:</b> Stop root account usage; enforce MFA for all users; issue short-lived STS/SSO role credentials instead of long-lived access keys.</li>
+            <li><b>3. Data Protection:</b> S3 Block Public Access; encrypt S3 and RDS at rest using <b>AWS KMS (AES-256)</b>; TLS 1.3 in transit.</li>
+            <li><b>IaC Security (Shift-Left Infra):</b> Write infra in Terraform/CloudFormation; scan in pipeline using <b>Checkov/tfsec/KICS</b> before provisioning.</li>
+          </ul>
+
+          <div class="sub-head">Resilience & Access Models</div>
+          <ul>
+            <li><b>RTO:</b> Max acceptable downtime duration before restore.</li>
+            <li><b>RPO:</b> Max acceptable data loss time window (age of data).</li>
+            <li><b>IDS vs IPS:</b> <i>IDS</i> = passive detection/alert; <i>IPS</i> = active inline blocking. <b>Signature</b> = known attacks; <b>Anomaly</b> = baseline deviation (catches zero-days, more false positives).</li>
+            <li><b>IAM Models:</b> <b>RBAC</b> (roles), <b>ABAC</b> (attributes: user, time, device), <b>DAC</b> (owner decides), <b>MAC</b> (strict labels/classifications).</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- INTENTIONAL BLANK SPACE FOR HANDWRITTEN EXAM NOTES (SIDE A) -->
+  <div class="notes-panel">
+    <div class="notes-header">
+      <span>✍ Intentional Blank Space for Handwritten Exam Notes, Formulas & Custom Diagrams (Side A)</span>
+      <span>Preserved Writing Space</span>
+    </div>
+    <div class="notes-lines"></div>
+  </div>
+
+</div>
+
+<!-- ========================================================================= -->
+<!-- PAGE 2 (SIDE B): DOCKER, K8S, CI/CD, SIEM, INCIDENT RESPONSE, GRC, SERVERLESS -->
+<!-- ========================================================================= -->
+<div class="page">
+  <!-- MICRO HEADER -->
+  <div class="micro-header">
+    <div class="micro-title">
+      <span class="micro-badge">IE3142</span> DEVOPS SECURITY — EXAM REFERENCE SHEET (SIDE B)
+    </div>
+    <div class="micro-meta">
+      Containers, Docker Arch, K8s RBAC, Secure CI/CD, Monitoring, IR 6-Phases & GRC | Page 2 of 2
+    </div>
+  </div>
+
+  <!-- 3 COLUMNS -->
+  <div class="columns-grid">
+    
+    <!-- COLUMN 1: DOCKER & KUBERNETES -->
+    <div class="column">
+      
+      <!-- LEC 05: DOCKER ARCHITECTURE & HARDENING -->
+      <div class="card">
+        <div class="card-header c-pink">
+          <span>6. Docker Architecture & Container Security</span>
+          <span class="badge">LEC 05 | Q1, Q2(iii), Q4(b)</span>
+        </div>
+        <div class="card-body">
+          <p><b>Docker:</b> Open platform to build, ship, and run applications using OS-level virtualization. <b>2 Advantages:</b> 1. Portability/consistency ("runs anywhere"); 2. Lightweight & rapid startup (shares host kernel).</p>
+
+          <div class="sub-head">Docker Architecture Components</div>
+          <div class="flow-seq">
+            <span class="f-node">Client (CLI)</span> &rarr;
+            <span class="f-node">Daemon (dockerd)</span> &rarr;
+            <span class="f-node">Image</span> &rarr;
+            <span class="f-node">Container</span> &harr;
+            <span class="f-node">Registry</span>
+          </div>
+          <ul>
+            <li><b>Docker Client:</b> Primary CLI interface (`docker build`, `run`, `pull`).</li>
+            <li><b>Docker Daemon (`dockerd`):</b> Background engine managing images, containers, networks, and storage volumes.</li>
+            <li><b>Docker Image:</b> Read-only, layered template with app code & deps.</li>
+            <li><b>Docker Container:</b> Runnable, isolated instance of an image with a thin writeable top layer.</li>
+            <li><b>Docker Registry:</b> Central repository storing & distributing images (Docker Hub, AWS ECR, Harbor).</li>
+          </ul>
+
+          <div class="sub-head">Image vs Container & VM Comparison</div>
+          <table>
+            <tr><th>Docker Image</th><th>Docker Container</th></tr>
+            <tr><td>Static, read-only blueprint</td><td>Dynamic, running instance</td></tr>
+            <tr><td>Immutable set of layers</td><td>Contains state + writeable layer</td></tr>
+          </table>
+          <p><b>VM vs Container:</b> Containers share host OS kernel via cgroups/namespaces (fast, lightweight, but risk of <i>container escape</i>). VMs have full guest OS via hypervisor (heavy, stronger hardware isolation).</p>
+
+          <div class="sub-head">4 Container Security Risks & Controls</div>
+          <ul>
+            <li><b>1. Running as Root:</b> Compromise gives root on host. &rarr; <i>Add `USER nonroot` (UID 10001); drop caps (`--cap-drop=ALL`).</i></li>
+            <li><b>2. Privileged Container / Socket:</b> `--privileged` or mounting `/var/run/docker.sock` allows escape. &rarr; <i>Disable privileged mode; never mount docker.sock.</i></li>
+            <li><b>3. Secrets in Image:</b> Hardcoded `ENV`/`ARG` secrets stored in layers. &rarr; <i>Inject at runtime via Vault/K8s Secrets; use `.dockerignore`.</i></li>
+            <li><b>4. Bloated / Vulnerable Images:</b> Unpinned tags (`:latest`) contain CVEs. &rarr; <i>Use pinned minimal base (`python:3.12-slim`), scan with Trivy/Grype.</i></li>
+          </ul>
+
+          <div class="sub-head">Secure vs Insecure Dockerfile</div>
+          <div class="code-box"><span class="bad"># INSECURE DOCKERFILE:</span>
+FROM python:latest
+ENV DB_PASS=Secret123 \
+    API_KEY=key-9876
+RUN apt-get update && apt-get install -y gcc vim openssh-server
+USER root
+EXPOSE 22 5000</div>
+          <div class="code-box"><span class="good"># SECURE DOCKERFILE:</span>
+FROM python:3.12-slim
+RUN useradd --create-home --uid 10001 appuser
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY --chown=appuser:appuser src/ ./src/
+USER appuser
+EXPOSE 5000</div>
+        </div>
+      </div>
+
+      <!-- KUBERNETES RBAC & POD SECURITY -->
+      <div class="card">
+        <div class="card-header c-purple">
+          <span>7. Kubernetes (K8s) Architecture & RBAC</span>
+          <span class="badge">LEC 05 | Q1, Q4(c)</span>
+        </div>
+        <div class="card-body">
+          <p><b>K8s Architecture:</b> <b>Control Plane</b> (API Server [mTLS/auth], etcd [encrypted secrets], Scheduler, Controller Mgr). <b>Worker Nodes</b> (kubelet, kube-proxy, container runtime, Pods).</p>
+
+          <div class="sub-head">Kubernetes RBAC Model & Exam Examples</div>
+          <p>RBAC binds <b>Subjects</b> (Users, Groups, ServiceAccounts) to <b>Roles</b> (API groups, resources, verbs: `get`, `list`, `create`, `update`, `delete`) via <b>RoleBindings</b>.</p>
+          <table>
+            <tr><th>Entity</th><th>Scope & Permissions</th><th>Exam Example Configuration</th></tr>
+            <tr><td><b>Developer</b></td><td>Namespaced `Role` (least priv)</td><td>Allow `get, list, create` on `pods, deploy` in `dev` ns only. <b>No secret access, no cluster-admin!</b></td></tr>
+            <tr><td><b>Admin</b></td><td>`ClusterRole` across all ns</td><td>`cluster-admin` bound via `ClusterRoleBinding` strictly to dedicated admins with MFA.</td></tr>
+            <tr><td><b>ServiceAcct</b></td><td>Pod identity token</td><td>1 per app; disable auto-mount (`automountServiceAccountToken: false`).</td></tr>
+          </table>
+          <ul>
+            <li><b>NetworkPolicy:</b> Default-deny ingress & egress; permit only Frontend &rarr; Backend &rarr; Database; block egress to internet to prevent exfiltration.</li>
+            <li><b>Pod Security (PSS):</b> Set `privileged: false`, `allowPrivilegeEscalation: false`, `readOnlyRootFilesystem: true`, set CPU/mem resource limits.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- COLUMN 2: SECURE CI/CD & CONTINUOUS MONITORING -->
+    <div class="column">
+      
+      <!-- LEC 06: SECURE CI/CD PIPELINE & TESTING -->
+      <div class="card">
+        <div class="card-header c-teal">
+          <span>8. DevSecOps CI/CD Pipeline & Tools</span>
+          <span class="badge">LEC 06 | Q1, Q2(ii), Q4(a)</span>
+        </div>
+        <div class="card-body">
+          <p><b>CI/CD Purpose:</b> Automate building, testing, validating, packaging, and deploying software. Integrates security checks to block bad code.</p>
+          <p><b>Continuous Delivery</b> = deployable build + manual release gate. <b>Continuous Deployment</b> = automatic release to production without manual intervention.</p>
+
+          <div class="sub-head">6-Stage DevSecOps Pipeline & Tool Mapping</div>
+          <table>
+            <tr><th>Pipeline Stage</th><th>Security Check / Activity</th><th>Example Tools</th></tr>
+            <tr><td><b>1. Code / Commit</b></td><td>Pre-commit hooks, <b>Secret scanning</b>, branch rules</td><td><b>Gitleaks</b>, TruffleHog, GitHub Secret Scan</td></tr>
+            <tr><td><b>2. Build</b></td><td><b>SAST</b> (source code) + <b>SCA</b> (dependencies)</td><td><b>SonarQube</b>, Semgrep, <b>Snyk</b>, Dependabot</td></tr>
+            <tr><td><b>3. Package</b></td><td>Container image scanning, <b>SBOM</b>, artifact sign</td><td><b>Trivy</b>, Grype, CycloneDX, <b>Cosign</b></td></tr>
+            <tr><td><b>4. Test / Staging</b></td><td><b>DAST</b> (runtime attack) + <b>IaC scanning</b></td><td><b>OWASP ZAP</b>, <b>Checkov</b>, tfsec, KICS</td></tr>
+            <tr><td><b>5. Deploy</b></td><td><b>Security Gate</b>, admission control policies</td><td>OPA Gatekeeper, Kyverno</td></tr>
+            <tr><td><b>6. Runtime</b></td><td>Continuous monitoring, runtime threat detection</td><td>Falco, Wazuh, SIEM (Sentinel, Splunk)</td></tr>
+          </table>
+
+          <div class="sub-head">Security Testing Matrix & Security Gates</div>
+          <table>
+            <tr><th>Type</th><th>Analyzes</th><th>Mode</th><th>Key Detection</th></tr>
+            <tr><td><b>SAST</b></td><td>Source code / AST</td><td>White-box (no run)</td><td>SQLi patterns, hardcoded secrets</td></tr>
+            <tr><td><b>SCA</b></td><td>3rd-party libs</td><td>Dependencies</td><td>Known CVEs, outdated packages</td></tr>
+            <tr><td><b>DAST</b></td><td>Running HTTP API</td><td>Black-box (dynamic)</td><td>XSS, auth bypass, misconfigs</td></tr>
+            <tr><td><b>IaC</b></td><td>Terraform / K8s</td><td>Config files</td><td>Public S3, open SGs, root pods</td></tr>
+          </table>
+          <p><b>Security Gate:</b> Automated pipeline policy condition that stops build and blocks deployment if failed (e.g. <i>0 Critical CVEs, 0 exposed secrets, signed image</i>). Leaked secrets must be <b>revoked & rotated immediately</b> (deleting commit is not enough).</p>
+        </div>
+      </div>
+
+      <!-- LEC 07: CONTINUOUS MONITORING & SIEM -->
+      <div class="card">
+        <div class="card-header c-amber">
+          <span>9. Continuous Monitoring & SIEM</span>
+          <span class="badge">LEC 07 | Q1, Q4(e)</span>
+        </div>
+        <div class="card-body">
+          <p><b>Continuous Security Monitoring (CSM):</b> Real-time observability of infrastructure, container, and cloud telemetry. Feedback loops back to SDLC Plan.</p>
+          <ul>
+            <li><b>Why Important:</b> Early threat detection, rapid containment, visibility into cloud actions, compliance & audit readiness.</li>
+            <li><b>Log Management:</b> Sync clocks via NTP (UTC). Mandatory fields: timestamp, src IP, user ID, action, result. Tamper-proof WORM storage. Redact PII.</li>
+            <li><b>SIEM (Security Information & Event Management):</b> Centralizes, normalizes, and correlates logs from multiple sources (CloudTrail, K8s audit, firewalls). Tools: <b>Microsoft Sentinel, Splunk, Elastic</b>.</li>
+            <li><b>Key Triggers:</b> Unusual outbound data transfer (exfiltration alerts), multiple failed logins, privileged pod creation, bulk secret reads.</li>
+            <li><b>Alert Accuracy:</b> <i>False Positive</i> = benign flagged bad; <i>False Negative</i> = breach missed (dangerous!).</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- COLUMN 3: INCIDENT RESPONSE, GRC & SERVERLESS -->
+    <div class="column">
+      
+      <!-- LEC 07: INCIDENT RESPONSE 6-PHASE LIFECYCLE -->
+      <div class="card">
+        <div class="card-header c-orange">
+          <span>10. Incident Response (IR) 6-Phase Lifecycle</span>
+          <span class="badge">LEC 07 | Q1, Q4(f)</span>
+        </div>
+        <div class="card-body">
+          <div class="flow-seq">
+            <span class="f-node">1. Prep</span> &rarr;
+            <span class="f-node">2. Detect</span> &rarr;
+            <span class="f-node">3. Contain</span> &rarr;
+            <span class="f-node">4. Eradicate</span> &rarr;
+            <span class="f-node">5. Recover</span> &rarr;
+            <span class="f-node">6. Lessons</span>
+          </div>
+          <ul>
+            <li><b>1. Preparation:</b> Establish IR plan, team roles, communication channels, tested backups, and access to forensic tools.</li>
+            <li><b>2. Detection & Analysis:</b> Validate alerts, scope affected systems/data, determine attack vector, analyze indicators of compromise (IOCs).</li>
+            <li><b>3. Containment:</b> <i>Short-term:</i> Isolate compromised pods/nodes, revoke stolen tokens, block attacker IP. <i>Long-term:</i> Segment network to prevent lateral spread.</li>
+            <li><b>4. Eradication:</b> Remove malware/malicious packages, patch exploited vulnerabilities, re-image nodes, rotate DB passwords & all secrets.</li>
+            <li><b>5. Recovery:</b> Restore clean systems from verified backups, test in staging, gradually return to production, heighten monitoring.</li>
+            <li><b>6. Lessons Learned:</b> Post-incident review, root-cause analysis (RCA), update pipeline security gates, report breach to regulator within <b>72 hours (GDPR Art 33)</b>.</li>
+            <li><b>Digital Forensics & Chain of Custody:</b> Work on <b>bit-stream copies</b> (never live disk); verify SHA-256 hashes; log every transfer and custodian to maintain legal evidence integrity.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- LEC 08: GRC & HEALTHCARE COMPLIANCE -->
+      <div class="card">
+        <div class="card-header c-indigo">
+          <span>11. Governance, Risk, Compliance & Healthcare</span>
+          <span class="badge">LEC 08 | Q1, Q4(d)</span>
+        </div>
+        <div class="card-body">
+          <p><b>GRC:</b> <b>Governance</b> (oversight/policies) + <b>Risk</b> (management) + <b>Compliance</b> (legal proof). <b>Compliance &ne; Security</b> (compliance is minimum baseline).</p>
+          <table>
+            <tr><th>Regulation / Body</th><th>Type</th><th>Core Scope & Exam Requirements</th></tr>
+            <tr><td><b>GDPR</b></td><td>EU Statutory Law</td><td>Protects personal data. 7 Principles. <b>Article 33: Notify regulator within 72h</b>. Extraterritorial.</td></tr>
+            <tr><td><b>HIPAA</b></td><td>US Statutory Law</td><td>Protects <b>PHI / ePHI</b>. Privacy Rule, Security Rule, Breach Notification Rule.</td></tr>
+            <tr><td><b>ENISA</b></td><td>EU Agency</td><td><b>Advisory Agency (NOT law!)</b>. Produces guidelines & threat reports.</td></tr>
+          </table>
+
+          <div class="sub-head">3 Healthcare Controls to Protect Patient Data</div>
+          <ul>
+            <li><b>1. Technical:</b> Encrypt at rest (AES-256) & transit (TLS 1.3); MFA; RBAC.</li>
+            <li><b>2. Administrative:</b> Access review policies, staff security training, IR plan.</li>
+            <li><b>3. Physical:</b> Data center access badges, encrypted workstation disks.</li>
+            <li><b>Control Classes:</b> <i>Preventive</i> (MFA, WAF), <i>Detective</i> (SIEM, IDS), <i>Corrective</i> (backups, patch), <i>Compensating</i> (isolated VLAN if no MFA).</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- LEC 10: SECURE SERVERLESS & DENIAL OF WALLET -->
+      <div class="card">
+        <div class="card-header c-green">
+          <span>12. Secure Serverless Architectures & DoW</span>
+          <span class="badge">LEC 10 | Q1</span>
+        </div>
+        <div class="card-body">
+          <p><b>Serverless / FaaS (Lambda):</b> Event-driven, auto-scaling, ephemeral execution. <i>CSP manages hardware, OS, runtime; Customer manages code & IAM!</i></p>
+          <ul>
+            <li><b>Denial of Wallet (DoW):</b> Malicious flood of event triggers exhausts cloud budget instead of crashing system. &rarr; <i>API rate limiting/throttling, concurrency limits, budget kill-switches & billing alarms.</i></li>
+            <li><b>Serverless IAM:</b> Scoped per-function least privilege (limits blast radius; never share single AdministratorAccess role).</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- INTENTIONAL BLANK SPACE FOR HANDWRITTEN EXAM NOTES (SIDE B) -->
+  <div class="notes-panel">
+    <div class="notes-header">
+      <span>✍ Intentional Blank Space for Handwritten Exam Notes, Formulas & Custom Diagrams (Side B)</span>
+      <span>Preserved Writing Space</span>
+    </div>
+    <div class="notes-lines"></div>
+  </div>
+
+</div>
+
+</body>
+</html>

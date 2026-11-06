@@ -1,113 +1,119 @@
-# IE3142 — DevOps Security: Comprehensive Topic Router & Exam Index
+# IE3142 — DevOps Security: Comprehensive Topic Router & Final Exam Index (V2)
 
 **Module:** IE3142 – DevOps Security  
-**Lectures Covered:** Lecture 01 to Lecture 09  
-**Purpose:** Rapid exam-time lookup mapping key terms, questions, acronyms, and scenarios to specific lectures and core concepts.
+**Lectures Covered:** Lecture 01 to Lecture 10  
+**Version:** V2 (Exam-Oriented Master Release aligned with Final Examination Structure)  
+**Purpose:** Rapid exam-time lookup mapping key terms, questions, acronyms, and scenarios to specific lectures, reference sheet sections, and examination questions.
 
 ---
 
-## 1. Quick Master Topic Router
-| Topic / Concept | Primary Lecture | Core Focus & Keywords | Page on Ref Sheet |
+## 1. Final Examination Question-to-Lecture Router
+
+| Question & Format | Marks | Primary Lectures | Core Focus & Tested Concepts | Reference Sheet Location |
+| :--- | :---: | :---: | :--- | :--- |
+| **Question 1: MCQs (25 Qs)** | **25** | **All Lectures (01–10)** | Broad high-yield facts: Shift-Left, SDLC phases, Prepared statements, Allow-lists, Output encoding, 12 Design Principles, STRIDE properties, DREAD formula, Cloud Shared Responsibility (IaaS/PaaS/SaaS), RPO/RTO, IDS/IPS anomaly vs signature, Container shared kernel, Dockerfile ENV risks, SBOM, SAST vs DAST vs SCA vs IaC, Security Gates & key rotation, IR 6-phases, Forensics Chain of Custody, GDPR Art. 33 (72h), Compensating controls, Serverless Denial of Wallet (DoW). | **Side A & Side B** (All cards) |
+| **Question 2(i): Threat Modelling (Structured)** | **8** | **Lecture 03** | Online Examination System: 4 assets (student details, exam questions, marks, audit logs); 4 STRIDE threats; suitable controls (MFA, encryption, digital signatures, RBAC); why design phase (Shift-Left, low-cost architectural fix, defines security requirements). | **Side A — Card 4** |
+| **Question 2(ii): CI/CD Security (Structured)** | **9** | **Lecture 06** | Online Shopping Pipeline: CI/CD purpose (automated build, test, package, deploy); SAST (white-box source code) vs SCA (3rd party libraries) vs DAST (black-box runtime); 3 security checks (secret scanning, SAST, SCA); Security Gate definition & how it halts insecure deployment. | **Side B — Card 8** |
+| **Question 2(iii): Docker Architecture (Structured)** | **8** | **Lecture 05** | Docker definition & 2 advantages (portability, consistency, rapid startup); Architecture diagram & components (Client, Daemon `dockerd`, Images, Containers, Registry); Image vs Container distinction; 2 container security risks & controls (root execution &rarr; `USER nonroot`; vulnerable base images &rarr; minimal pinned tags & scanning). | **Side B — Card 6** |
+| **Question 3: Online Banking Essay (Scenario 1)** | **25** | **Lecture 01, 02, 03, 04** | LankaPay Mobile Wallet: Shift-Left concept & why quarterly late testing failed (cost curve 1x to 100x); 5 secure coding practices with code (Parameterized queries, Allow-list validation, Context-aware output encoding, Strong password hashing [Argon2id/bcrypt], Complete mediation/server-side auth); STRIDE threat model on "Send Money" (5 threats + controls) + DREAD scoring formula; 3 Infrastructure measures (Private subnets/RDS, IAM least privilege/MFA, AWS KMS encryption); SDLC security cost/benefit. | **Side A — Cards 1, 2, 4 & 5** |
+| **Question 4: Cloud Healthcare Essay (Scenario 2)** | **25** | **Lecture 05, 06, 07, 08** | MediCare Plus Patient Management System: CI/CD security integration across 6 stages with checks & tools (Gitleaks, SonarQube, Snyk, Trivy, Cosign, OWASP ZAP, Checkov); 4 Docker container risks (root execution, `--privileged` flag, docker.sock mount, hardcoded secrets); Kubernetes RBAC (Developer namespaced Role vs Admin `cluster-admin`, service account token disabling, NetworkPolicy default-deny, Pod Security Standards); Governance & Compliance (GDPR Art. 33 72-hour breach notice, HIPAA Administrative/Physical/Technical safeguards, 3 patient protection controls); Continuous monitoring (SIEM, egress anomaly alerts); Incident Response 6-phase lifecycle (Prep, Detect, Contain, Eradicate, Recover, Lessons) + Forensics Chain of Custody. | **Side B — Cards 6, 7, 8, 9, 10 & 11** |
+
+---
+
+## 2. Master Topic & Concept Lookup Router
+
+| Topic / Keyword | Primary Lecture | Core Focus & Exam Key Points | Ref Sheet Location |
 | :--- | :--- | :--- | :--- |
-| **DevSecOps Core Principles** | **Lecture 01** | Shared Responsibility, Security Automation, Continuous Security, Continuous Monitoring | **Side A (P1)** |
-| **Shift Left Security** | **Lecture 01** | Early testing, cost multiplier (10–100x), proactive prevention | **Side A (P1)** |
-| **Traditional vs DevOps vs DevSecOps** | **Lecture 01** | Siloed vs speed vs shared secure delivery | **Side A (P1)** |
-| **Secure SDLC Phases** | **Lecture 01, 02** | Reqs (abuse cases) → Design (threat model) → Code (SAST) → Test (DAST) → Deploy (gates) → Ops (monitor) | **Side A (P1)** |
-| **Input Validation** | **Lecture 02** | Allow-list > Block-list, canonicalization first, format/type/length check | **Side A (P1)** |
-| **Parameterized Queries** | **Lecture 02** | Separates code from data, primary SQL Injection (SQLi) defense | **Side A (P1)** |
-| **Output Encoding** | **Lecture 02** | Context-aware encoding (HTML, JS, URL), primary XSS defense | **Side A (P1)** |
-| **Authentication vs Authorization** | **Lecture 02** | Who you are (AuthN, MFA, Argon2) vs What you can do (AuthZ, RBAC, IDOR prevention) | **Side A (P1)** |
-| **Password Hashing** | **Lecture 02** | Memory-hard hashes: Argon2id, bcrypt, PBKDF2 (never MD5/SHA) | **Side A (P1)** |
-| **Secure Logging Rules** | **Lecture 02, 07** | Log security events; NEVER log passwords, tokens, full PAN, or PII | **Side A (P1)** |
-| **12 Secure Design Principles** | **Lecture 03** | Defense in Depth, Fail Securely, Least Privilege, Fail-Safe Defaults, Secure Defaults, Open Design, etc. | **Side A (P1)** |
-| **Threat Modeling Workflow** | **Lecture 03** | Assets → DFD → Trust Boundaries → STRIDE → Risk Assessment → Mitigate → Validate | **Side A (P1)** |
-| **STRIDE Threat Framework** | **Lecture 03** | Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege | **Side A (P1)** |
-| **Risk Formula & 4 Treatments** | **Lecture 03** | Risk = Likelihood × Impact. Treatments: Mitigate, Avoid, Transfer, Accept | **Side A (P1)** |
-| **Cloud Service Models** | **Lecture 04** | IaaS (OS down), PaaS (Runtime down), SaaS (All managed except data/access) | **Side B (P2)** |
-| **Shared Responsibility Model** | **Lecture 04, 09** | CSP: Security OF the Cloud; Customer: Security IN the Cloud | **Side B (P2)** |
-| **AWS vs Azure Security Services** | **Lecture 04** | IAM vs Entra ID; CloudTrail vs Activity Log; CloudWatch vs Azure Monitor; KMS vs Key Vault; SGs vs NSGs | **Side B (P2)** |
-| **RTO vs RPO** | **Lecture 04** | RTO = Max acceptable downtime; RPO = Max acceptable data loss time window | **Side B (P2)** |
-| **Network Controls (Firewall/WAF/VPN)**| **Lecture 04** | Stateful vs stateless, WAF at L7, Remote-access vs Site-to-site VPN | **Side B (P2)** |
-| **IDS vs IPS** | **Lecture 04, 07** | IDS = Passive, alert only; IPS = Inline, actively drops/blocks malicious traffic | **Side B (P2)** |
-| **Access Control Models** | **Lecture 04** | RBAC (roles), ABAC (attributes/context), DAC (owner), MAC (security labels) | **Side B (P2)** |
-| **IaC & Hardening** | **Lecture 04** | Baseline configs, disable unused ports/services, eliminate drift via code | **Side B (P2)** |
-| **VM vs Container Comparison** | **Lecture 05** | Hardware virtualization (Hypervisor + Guest OS) vs OS virtualization (cgroups/namespaces + shared kernel) | **Side B (P2)** |
-| **Docker Components & Flow** | **Lecture 05** | Dockerfile → docker build → Image (layers) → Registry → docker run → Container | **Side B (P2)** |
-| **Container Hardening** | **Lecture 05** | Non-root USER, drop capabilities, no `--privileged`, no docker.sock mount, read-only rootfs | **Side B (P2)** |
-| **Kubernetes Architecture** | **Lecture 05** | Control Plane: API Server, etcd, Scheduler, Controller Manager. Node: kubelet, kube-proxy, Pod | **Side B (P2)** |
-| **Kubernetes Security Controls** | **Lecture 05** | RBAC, etcd encryption, NetworkPolicy (default deny), Pod Security Standards | **Side B (P2)** |
-| **CI vs CD vs Continuous Deploy** | **Lecture 06** | CI = frequent integration + auto test; Delivery = deployable build + manual gate; Deployment = auto to prod | **Side B (P2)** |
-| **Security Testing: SAST vs DAST vs SCA**| **Lecture 06** | SAST (white-box, code, no run) vs DAST (black-box, running app, HTTP) vs SCA (open-source dependencies, CVEs) | **Side B (P2)** |
-| **Secrets Scanning** | **Lecture 06** | Scanning commits for leaked API keys/tokens (TruffleHog, Gitleaks); revoking exposed secrets | **Side B (P2)** |
-| **Security Gates** | **Lecture 06** | Automated pass/fail policy checks halting pipeline on High/Critical findings | **Side B (P2)** |
-| **Software Supply Chain Security** | **Lecture 06** | SBOM (CycloneDX), artifact signing (Cosign), pinned dependencies, isolated runners | **Side B (P2)** |
-| **Continuous Security Monitoring (CSM)**| **Lecture 07** | Ongoing telemetry collection, real-time threat detection, feedback to SDLC Plan | **Side B (P2)** |
-| **SIEM & Alert Correlation** | **Lecture 07** | Centralize, normalize, correlate logs, alert on IOCs; False Positives vs False Negatives | **Side B (P2)** |
-| **Incident Response (IR) 6 Phases** | **Lecture 07** | 1. Preparation → 2. Identification → 3. Containment → 4. Eradication → 5. Recovery → 6. Lessons Learned | **Side B (P2)** |
-| **Digital Forensics Principles** | **Lecture 07** | Chain of custody, bit-stream copies, hash verification (SHA-256), timeline analysis | **Side B (P2)** |
-| **GRC Fundamentals** | **Lecture 08** | Governance (direction/oversight) + Risk (identification/treatment) + Compliance (legal proof) | **Side B (P2)** |
-| **Statute vs Standard vs Agency** | **Lecture 08** | Statute = binding law (GDPR, HIPAA); Standard = PCI-DSS/ISO 27001; Agency = advisory (ENISA) | **Side B (P2)** |
-| **GDPR 7 Principles & 72-Hour Rule** | **Lecture 08** | Lawfulness, Purpose limitation, Data minimization, Accuracy, Storage, Integrity, Accountability; 72h breach notice | **Side B (P2)** |
-| **HIPAA Rules & Safeguards** | **Lecture 08** | Privacy Rule, Security Rule (Administrative, Physical, Technical), Breach Notification Rule; protects PHI/ePHI | **Side B (P2)** |
-| **ENISA Role** | **Lecture 08** | European Union Agency for Cybersecurity; produces guidelines and threat analysis (NOT law) | **Side B (P2)** |
-| **Audit vs Assessment vs Evidence** | **Lecture 08** | Formal audit vs internal assessment; evidence = verifiable artifacts; Compliance ≠ Security | **Side B (P2)** |
-| **Cloud-Native & Serverless / FaaS** | **Lecture 09** | Event-driven, ephemeral, dynamic auto-scaling, pay-per-millisecond (AWS Lambda, Azure Functions) | **Side B (P2)** |
-| **Shared Responsibility in Serverless**| **Lecture 09** | CSP manages infra, OS, runtime, scaling; Customer manages code, IAM, APIs, data, dependencies | **Side B (P2)** |
-| **Serverless Top Threats & Mitigations**| **Lecture 09** | Insecure code, excessive IAM, insecure APIs, secrets exposure, event injection, Denial of Wallet (DoW) | **Side B (P2)** |
-| **Denial of Wallet (DoW)** | **Lecture 09** | Financial exhaustion via abusive serverless triggers; defended via throttling, concurrency caps, billing alerts | **Side B (P2)** |
+| **12 Secure Design Principles** | **Lecture 03** | Saltzer & Schroeder: Defense in Depth, Fail Securely, Least Privilege, Fail-Safe Defaults, Secure Defaults, Minimize Surface, Separation of Duties, Complete Mediation, Economy of Mechanism, Open Design, Least Common Mechanism, Psychological Acceptability | **Side A — Card 3** |
+| **ABAC vs RBAC vs DAC vs MAC** | **Lecture 04** | RBAC = role-based; ABAC = attributes/context (time, device, IP); DAC = owner discretion; MAC = mandatory security labels (military/confidential) | **Side A — Card 5** |
+| **Admission Controllers (K8s)** | **Lecture 05, 06** | OPA Gatekeeper, Kyverno; intercept API requests before etcd persistence; enforce signed images & non-root pods | **Side B — Card 7 & 8** |
+| **Allow-List Input Validation** | **Lecture 02** | Define exact allowed characters/regex (`/^[a-zA-Z0-9_]{3,20}$/`); **fails closed**; reject invalid input; decode/canonicalize first | **Side A — Card 2** |
+| **Anomaly vs Signature Detection** | **Lecture 04, 07** | Signature = known patterns (low false positives); Anomaly = baseline deviation (catches 0-days, higher false positives) | **Side A — Card 5** |
+| **Argon2id / bcrypt / PBKDF2** | **Lecture 02** | Memory-hard & CPU-intensive password hashing with salt and work factor; defeats GPU/ASIC rainbow table attacks | **Side A — Card 2** |
+| **Assets (Threat Modeling)** | **Lecture 03** | High-value data or resources: credentials, exam questions, student marks, patient medical records, payment API keys | **Side A — Card 4** |
+| **Chain of Custody** | **Lecture 07** | Chronological documentation proving evidence integrity: who collected it, when, transfers, tamper-proof storage | **Side B — Card 10** |
+| **Checkov / tfsec / KICS** | **Lecture 04, 06** | Static IaC security scanners checking Terraform/K8s files for open security groups, public S3 buckets, root pods | **Side A — Card 5, Side B — Card 8** |
+| **CI vs CD vs Continuous Deploy** | **Lecture 06** | CI = frequent commit & auto test; CD (Delivery) = deployable artifact + manual gate; Continuous Deployment = auto to prod | **Side B — Card 8** |
+| **Cloud Shared Responsibility** | **Lecture 04, 10** | CSP: Security **OF** the Cloud (hardware, hypervisors); Customer: Security **IN** the Cloud (OS, data, IAM, apps, firewalls) | **Side A — Card 5** |
+| **Compensating Controls** | **Lecture 08** | Alternative security control implemented when the preferred primary control (e.g. MFA) is technically infeasible | **Side B — Card 11** |
+| **Complete Mediation** | **Lecture 02, 03** | Verify authorization on **every access attempt**; never cache past permission checks; check role server-side | **Side A — Card 2 & 3** |
+| **Container Escape** | **Lecture 05** | Attacker breaks out of container to host kernel; caused by `--privileged`, root execution, or `/var/run/docker.sock` mount | **Side B — Card 6** |
+| **Continuous Security Monitoring** | **Lecture 07** | Real-time observability of telemetry across apps, nodes, containers, and cloud APIs; feeds back into SDLC planning | **Side B — Card 9** |
+| **Cosign / Sigstore / SBOM** | **Lecture 06** | Software supply chain integrity: CycloneDX/SPDX SBOM gives package visibility; Cosign signs and verifies images | **Side B — Card 8** |
+| **DAST (Dynamic Testing)** | **Lecture 06** | Black-box testing of a running web application via simulated HTTP attacks (OWASP ZAP); finds XSS, auth flaws | **Side B — Card 8** |
+| **Denial of Wallet (DoW)** | **Lecture 10** | Serverless/cloud billing exhaustion caused by automated event flooding; defended via rate-limits, concurrency caps, billing alarms | **Side B — Card 12** |
+| **Digital Forensics Principles** | **Lecture 07** | Work on **bit-stream forensic copies** (never live original); compute & verify SHA-256 hashes; maintain Chain of Custody | **Side B — Card 10** |
+| **Docker Architecture & Engine** | **Lecture 05** | Docker Client (CLI) &rarr; Docker Daemon (`dockerd`) &rarr; Images (read-only layers) &rarr; Containers (running instance) &harr; Registry | **Side B — Card 6** |
+| **Docker Security Hardening** | **Lecture 05** | `USER nonroot` (UID 10001); `--cap-drop=ALL`; `--privileged=false`; never mount docker.sock; read-only rootfs; `.dockerignore` | **Side B — Card 6** |
+| **DREAD Risk Scoring** | **Lecture 03** | Risk score = $(D + R + E + A + D) / 5$ (Damage, Reproducibility, Exploitability, Affected Users, Discoverability). Score &ge; 7.0 = High | **Side A — Card 4** |
+| **ENISA (EU Cybersecurity Agency)** | **Lecture 08** | **Advisory Agency (NOT law!)**; produces cybersecurity guidelines, threat landscapes, and recommendations | **Side B — Card 11** |
+| **Fail Securely vs Fail-Safe Defaults**| **Lecture 03** | Fail Securely = system locks down on error (fail closed); Fail-Safe Defaults = default access state is deny-all | **Side A — Card 3** |
+| **GDPR (Article 33 & 7 Principles)** | **Lecture 08** | EU Law; extraterritorial; protect personal data; **72-hour breach notification to supervisory authority** (Article 33) | **Side B — Card 11** |
+| **Gitleaks / TruffleHog** | **Lecture 06** | Automated secret scanners detecting API keys, tokens, and private keys committed to Git repositories | **Side B — Card 8** |
+| **HIPAA (Privacy, Security, Breach)**| **Lecture 08** | US Law protecting **PHI / ePHI**; 3 Security Safeguards: **Administrative, Physical, and Technical** | **Side B — Card 11** |
+| **IaC Scanning** | **Lecture 04, 06** | Scanning declarative code (Terraform, CloudFormation, K8s manifests) for misconfigurations before deployment | **Side A — Card 5, Side B — Card 8** |
+| **IDS vs IPS** | **Lecture 04, 07** | IDS = passive detection & out-of-band alerting; IPS = active inline packet filtering & traffic dropping | **Side A — Card 5** |
+| **Incident Response (6 Phases)** | **Lecture 07** | 1. Preparation &rarr; 2. Detection & Analysis &rarr; 3. Containment &rarr; 4. Eradication &rarr; 5. Recovery &rarr; 6. Lessons Learned | **Side B — Card 10** |
+| **Kubernetes RBAC** | **Lecture 05** | Subjects bound to Roles/ClusterRoles via RoleBindings; Developer = namespaced least priv; Admin = `cluster-admin` via MFA | **Side B — Card 7** |
+| **Least Privilege Principle** | **Lecture 02, 03** | Grant only the minimum permissions necessary for the specific task and time required; limit blast radius | **Side A — Card 2 & 3** |
+| **NetworkPolicy (Kubernetes)** | **Lecture 05** | Pod-to-pod firewalling; default-deny ingress and egress; permits only frontend &rarr; backend &rarr; database | **Side B — Card 7** |
+| **Output Encoding (Context-Aware)** | **Lecture 02** | Converts HTML special characters (`<`, `>`, `&`, `"`) to safe entities; primary mitigation against Cross-Site Scripting (XSS) | **Side A — Card 2** |
+| **Parameterized Queries** | **Lecture 02** | Prepared statements separating SQL structure from untrusted user input; definitive defense against SQL Injection | **Side A — Card 2** |
+| **Risk Formula & 4 Treatments** | **Lecture 03** | $\text{Risk} = \text{Likelihood} \times \text{Impact}$. Treatments: **Mitigate** (controls), **Avoid**, **Transfer** (insurance), **Accept** | **Side A — Card 4** |
+| **RTO vs RPO** | **Lecture 04** | RTO = Recovery Time Objective (max downtime duration); RPO = Recovery Point Objective (max acceptable data loss time) | **Side A — Card 5** |
+| **SAST vs SCA vs DAST** | **Lecture 06** | SAST = white-box source code; SCA = 3rd party open-source dependencies; DAST = black-box running app | **Side B — Card 8** |
+| **Security Gates** | **Lecture 06** | Automated pass/fail pipeline conditions halting deployment if security policies (0 critical CVEs, no secrets) are breached | **Side B — Card 8** |
+| **Shift Left Security** | **Lecture 01** | Moving security to Requirements and Design phases; reduces defect fix costs from $100\times$ (prod) to $1\times$–$5\times$ (early) | **Side A — Card 1** |
+| **SIEM (Security Info & Event Mgmt)**| **Lecture 07** | Centralizes, normalizes, and correlates logs from multiple systems; tools: Microsoft Sentinel, Splunk, Elastic | **Side B — Card 9** |
+| **STRIDE Threat Modeling** | **Lecture 03** | Spoofing (AuthN), Tampering (Integrity), Repudiation (Accountability), Info Disclosure (Confidentiality), DoS (Availability), Elevation of Privilege (AuthZ) | **Side A — Card 4** |
 
 ---
 
-## 2. Alphabetical Keyword Quick-Lookup Index
-- **ABAC / RBAC / DAC / MAC:** Lecture 04 (Section 4.7)
-- **AppArmor / seccomp / SELinux:** Lecture 05 (Section 5.3)
-- **Argon2id / bcrypt / PBKDF2:** Lecture 02 (Section 2.4)
-- **AWS KMS / Azure Key Vault:** Lecture 04 (Section 4.4), Lecture 09 (Section 9.5)
-- **AWS Lambda / Azure Functions:** Lecture 09 (Section 9.2)
-- **Chain of Custody:** Lecture 07 (Section 7.6)
-- **CI/CD Security Gates:** Lecture 06 (Section 6.4)
-- **CloudTrail / CloudWatch:** Lecture 04 (Section 4.4)
-- **Complete Mediation Principle:** Lecture 03 (Section 3.2)
-- **Container Escape:** Lecture 05 (Section 5.3)
-- **Continuous Security Monitoring (CSM):** Lecture 07 (Section 7.1)
-- **Cosign / Sigstore / SBOM:** Lecture 06 (Section 6.5)
-- **DAST (Dynamic Testing):** Lecture 06 (Section 6.3)
-- **Defense in Depth Principle:** Lecture 03 (Section 3.2), Lecture 04 (Section 4.1)
-- **Denial of Wallet (DoW):** Lecture 09 (Section 9.5)
-- **DFD & Trust Boundaries:** Lecture 03 (Section 3.4)
-- **Digital Forensics:** Lecture 07 (Section 7.6)
-- **Docker Architecture (Daemon, Image layers, Container):** Lecture 05 (Section 5.2)
-- **Economy of Mechanism Principle:** Lecture 03 (Section 3.2)
-- **ENISA (EU Cybersecurity Agency):** Lecture 08 (Section 8.5)
-- **Fail Securely vs Fail-Safe Defaults:** Lecture 03 (Section 3.2)
-- **False Positive vs False Negative:** Lecture 07 (Section 7.3)
-- **GDPR 7 Principles & Article 33 Breach Rule:** Lecture 08 (Section 8.3)
-- **HIPAA Rules & ePHI Safeguards:** Lecture 08 (Section 8.4)
-- **IaaS vs PaaS vs SaaS:** Lecture 04 (Section 4.3)
-- **IaC Scanning (Terraform / Checkov):** Lecture 04 (Section 4.8), Lecture 06 (Section 6.3)
-- **IDS vs IPS:** Lecture 04 (Section 4.6), Lecture 07 (Section 7.4)
-- **Incident Response 6 Stages:** Lecture 07 (Section 7.5)
-- **Input Validation (Allow-list):** Lecture 02 (Section 2.3)
-- **Kubernetes Control Plane & Worker Nodes:** Lecture 05 (Section 5.4)
-- **Kubernetes RBAC & NetworkPolicy:** Lecture 05 (Section 5.5)
-- **Least Privilege Principle:** Lecture 02 (Section 2.3), Lecture 03 (Section 3.2)
-- **Log Management & Secure Fields:** Lecture 07 (Section 7.2)
-- **Output Encoding (Context-aware):** Lecture 02 (Section 2.3)
-- **OWASP Top 10 Web Vulnerabilities:** Lecture 02 (Section 2.2)
-- **Parameterized Queries (Prepared Statements):** Lecture 02 (Section 2.3)
-- **Pod Security Standards (PSS):** Lecture 05 (Section 5.5)
-- **Risk Formula & Treatments (Mitigate, Avoid, Transfer, Accept):** Lecture 03 (Section 3.6)
-- **RTO vs RPO:** Lecture 04 (Section 4.5)
-- **SAST (Static Testing):** Lecture 06 (Section 6.3)
-- **SCA (Dependency Scanning):** Lecture 06 (Section 6.3)
-- **Secret Scanning (TruffleHog / Gitleaks):** Lecture 06 (Section 6.3)
-- **Shared Responsibility Model:** Lecture 04 (Section 4.3), Lecture 09 (Section 9.4)
-- **Shift Left Security:** Lecture 01 (Section 1.5)
-- **SIEM Workflow:** Lecture 07 (Section 7.3)
-- **STRIDE Threat Modeling Categories:** Lecture 03 (Section 3.5)
-- **Trust Boundaries:** Lecture 03 (Section 3.4)
-- **Virtual Machines vs Containers:** Lecture 05 (Section 5.1)
-- **WAF (Layer 7 Inspection):** Lecture 04 (Section 4.6)
-
----
-*End of Topic Index.*
+## 3. Alphabetical Keyword Index
+- **ABAC:** Lecture 04, Side A (Card 5)
+- **Admission Controllers:** Lecture 05 & 06, Side B (Card 7 & 8)
+- **Allow-list:** Lecture 02, Side A (Card 2)
+- **Argon2id:** Lecture 02, Side A (Card 2)
+- **Assets:** Lecture 03, Side A (Card 4)
+- **Audit Logs:** Lecture 02 & 07, Side A (Card 2), Side B (Card 9)
+- **AWS KMS / Azure Key Vault:** Lecture 04, Side A (Card 5)
+- **bcrypt:** Lecture 02, Side A (Card 2)
+- **Chain of Custody:** Lecture 07, Side B (Card 10)
+- **Checkov:** Lecture 04 & 06, Side A (Card 5), Side B (Card 8)
+- **CI/CD Pipeline:** Lecture 06, Side B (Card 8)
+- **CloudTrail / CloudWatch:** Lecture 04 & 07, Side A (Card 5), Side B (Card 9)
+- **Compensating Controls:** Lecture 08, Side B (Card 11)
+- **Complete Mediation:** Lecture 02 & 03, Side A (Card 2 & 3)
+- **Container Escape:** Lecture 05, Side B (Card 6)
+- **Continuous Delivery vs Deployment:** Lecture 06, Side B (Card 8)
+- **Cosign / Sigstore:** Lecture 06, Side B (Card 8)
+- **DAST (OWASP ZAP):** Lecture 06, Side B (Card 8)
+- **Defense in Depth:** Lecture 03, Side A (Card 3)
+- **Denial of Wallet (DoW):** Lecture 10, Side B (Card 12)
+- **Docker Architecture (Client, Daemon, Image, Container, Registry):** Lecture 05, Side B (Card 6)
+- **DREAD Scoring:** Lecture 03, Side A (Card 4)
+- **ENISA:** Lecture 08, Side B (Card 11)
+- **Fail Securely:** Lecture 03, Side A (Card 3)
+- **GDPR Article 33 (72h Notice):** Lecture 08, Side B (Card 11)
+- **Gitleaks / TruffleHog:** Lecture 06, Side B (Card 8)
+- **HIPAA Safeguards:** Lecture 08, Side B (Card 11)
+- **IaaS vs PaaS vs SaaS:** Lecture 04, Side A (Card 5)
+- **IaC Security:** Lecture 04 & 06, Side A (Card 5), Side B (Card 8)
+- **IDS vs IPS:** Lecture 04 & 07, Side A (Card 5)
+- **Incident Response (6 Phases):** Lecture 07, Side B (Card 10)
+- **Kubernetes RBAC:** Lecture 05, Side B (Card 7)
+- **Least Privilege:** Lecture 02 & 03, Side A (Card 2 & 3)
+- **NetworkPolicy:** Lecture 05, Side B (Card 7)
+- **Output Encoding:** Lecture 02, Side A (Card 2)
+- **Parameterized Queries:** Lecture 02, Side A (Card 2)
+- **Pod Security Standards (PSS):** Lecture 05, Side B (Card 7)
+- **Risk Treatments:** Lecture 03, Side A (Card 4)
+- **RTO vs RPO:** Lecture 04, Side A (Card 5)
+- **SAST (SonarQube/Semgrep):** Lecture 06, Side B (Card 8)
+- **SCA (Snyk/Dependabot):** Lecture 06, Side B (Card 8)
+- **Security Gates:** Lecture 06, Side B (Card 8)
+- **Shift Left SDLC:** Lecture 01, Side A (Card 1)
+- **SIEM (Sentinel/Splunk):** Lecture 07, Side B (Card 9)
+- **STRIDE Threat Framework:** Lecture 03, Side A (Card 4)
+- **Trust Boundary:** Lecture 03, Side A (Card 4)
+- **VM vs Container:** Lecture 05, Side B (Card 6)

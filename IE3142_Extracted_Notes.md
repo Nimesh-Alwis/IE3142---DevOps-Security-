@@ -511,3 +511,81 @@
 
 ---
 *End of Extracted Notes for IE3142 — DevOps Security.*
+
+
+---
+
+## 10. Final Examination Scenario Synthesis & Cheat Sheet
+
+### 10.1 Structured Question Scenario: Online Examination System (Q2 Focus)
+- **Context:** University portal where students take exams and view marks; lecturers upload questions and marks; administrators manage accounts.
+- **Assets to Protect:**
+  1. Student personal details & login credentials.
+  2. Examination questions before exam release.
+  3. Student exam submissions / answers.
+  4. Final marks and academic transcripts.
+  5. Audit logs recording mark modifications.
+- **STRIDE Threat Mapping & Mitigations:**
+  - *Spoofing:* Attacker logs in with stolen lecturer password &rarr; MFA, strong password policy, account lockout.
+  - *Tampering:* Student intercepts API request to alter their own marks &rarr; Server-side authorization check, HMAC, digital signatures.
+  - *Repudiation:* Lecturer denies altering a mark &rarr; Immutable, tamper-evident audit logs with NTP UTC timestamps and user IDs.
+  - *Information Disclosure:* SQL injection dumps exam questions or student records &rarr; Parameterized queries, AES-256 database encryption at rest, TLS 1.3 in transit.
+  - *Denial of Service:* Traffic flood crashes results portal on release day &rarr; API rate limiting, Web Application Firewall (WAF), autoscaling.
+  - *Elevation of Privilege:* Student calls `/admin/users` or lecturer endpoints directly &rarr; Role-Based Access Control (RBAC), Complete Mediation on every request.
+- **Why Design Phase?** Threat modeling must occur during the design phase (Shift-Left) because fixing architectural security flaws early costs up to 10&times;&ndash;100&times; less than fixing them in testing or production, prevents costly rework, and establishes security requirements and test cases before coding begins.
+
+### 10.2 Essay Scenario 1: LankaPay Online Banking Application (Q3 Focus)
+- **Context:** Fintech mobile wallet for transfers, bill payments, and merchant checkouts with AWS backend (RDS, S3, REST APIs). Previous development followed traditional waterfall with late penetration testing (resulting in a 5-week release delay).
+- **Shift-Left Rationale:** Moving security from late testing to early SDLC stages. Defect cost curve: Requirements ($1\times$), Design ($5\times$), Coding ($10\times$), Testing ($15\times$), Production ($100\times$). Continuous automated testing in CI/CD gives developers immediate feedback and prevents deployment delays.
+- **Five Core Secure Coding Practices:**
+  1. *Parameterized Queries (Prepared Statements):* Eliminates SQL injection by treating input as literal data.
+  2. *Allow-list Input Validation:* Strict regex (`/^[a-zA-Z0-9_]{3,20}$/`), type, and length checks; fails closed.
+  3. *Context-Aware Output Encoding:* Converts HTML special characters to safe entities (`&lt;`, `&gt;`, `&amp;`) to defeat XSS.
+  4. *Memory-Hard Password Hashing:* Argon2id or bcrypt with unique salt and work factor &ge; 12; never MD5/SHA.
+  5. *Complete Mediation & Server-Side Authorization:* Check user authentication and role on *every* protected request (`if user.role != 'ADMIN': return 403`).
+  - *Database Least Privilege:* App DB user has only `SELECT, INSERT, UPDATE` (never `DROP` or `GRANT`).
+  - *Secrets Management:* Never hardcode API keys or DB passwords; load at runtime from AWS Secrets Manager.
+- **Three Core Infrastructure Security Measures:**
+  1. *Network Segmentation:* RDS database in private subnet with no public IP; Security Groups restrict port 3306 exclusively to the API tier; AWS WAF on public Application Load Balancers.
+  2. *IAM Least Privilege & MFA:* Stop using the root account; issue short-lived STS/SSO role credentials instead of long-lived access keys; enforce MFA for all users.
+  3. *Data Encryption & Protection:* S3 Block Public Access; encrypt S3 buckets and RDS storage using AWS KMS (AES-256); enforce TLS 1.3 in transit.
+  - *Shift-Left IaC:* Write infrastructure in Terraform/CloudFormation and scan in CI/CD using Checkov/tfsec before provisioning.
+
+### 10.3 Essay Scenario 2: MediCare Plus Cloud Healthcare System (Q4 Focus)
+- **Context:** Private hospital with EU medical-tourism patients; microservices in Docker containers on Kubernetes; GitHub CI/CD pipeline. Previous breach: leaked GitHub token &rarr; malicious dependency &rarr; privileged root container &rarr; container escape &rarr; `cluster-admin` service account read all K8s secrets &rarr; 40,000 patient records exfiltrated.
+- **DevSecOps 6-Stage CI/CD Pipeline & Tools:**
+  1. *Code / Commit:* Pre-commit hooks, secret scanning (Gitleaks, TruffleHog), signed Git commits.
+  2. *Build:* SAST (SonarQube, Semgrep) + SCA (Snyk, OWASP Dependency-Check, Dependabot).
+  3. *Package:* Container image scanning (Trivy, Grype), SBOM generation (CycloneDX, SPDX), image signing (Cosign/Sigstore).
+  4. *Test / Staging:* DAST (OWASP ZAP) + IaC scanning (Checkov, tfsec, KICS).
+  5. *Deploy:* Admission controllers (OPA Gatekeeper, Kyverno) enforcing signed images and non-root pods; automated Security Gates blocking deployment on Critical CVEs or exposed secrets.
+  6. *Runtime:* Continuous runtime threat monitoring (Falco, Wazuh) and SIEM (Microsoft Sentinel, Splunk).
+- **Four Docker Container Risks & Controls:**
+  1. *Running as Root:* Compromising container yields root on worker node &rarr; `USER nonroot` (UID 10001), drop capabilities (`--cap-drop=ALL`).
+  2. *Privileged Containers / Docker Socket:* `--privileged` or mounting `/var/run/docker.sock` allows full container escape &rarr; Disable privileged containers; never mount docker.sock.
+  3. *Secrets Baked into Images:* `ENV` or `ARG` passwords persist in image layers &rarr; Inject at runtime via Kubernetes Secrets or HashiCorp Vault; use `.dockerignore`.
+  4. *Vulnerable / Bloated Images:* Unpinned tags (`:latest`) contain thousands of outdated packages &rarr; Use minimal pinned base images (`python:3.12-slim`), multi-stage builds, and Trivy image scanning.
+- **Kubernetes RBAC Access Controls:**
+  - *Developer:* Namespaced `Role` in `dev` namespace (`get, list, create, update` on `pods, services, deployments`). **No access to Secrets, no cluster-admin!**
+  - *Administrator:* `ClusterRoleBinding` to `cluster-admin` strictly restricted to authorized platform engineers with mandatory MFA.
+  - *Service Accounts:* Dedicated per application; disable token automounting (`automountServiceAccountToken: false`) when pods do not need Kubernetes API access.
+  - *NetworkPolicies:* Default-deny ingress & egress; permit only Frontend &rarr; Backend &rarr; Database; block egress to arbitrary internet IPs to prevent data exfiltration.
+  - *Pod Security Standards:* Set `privileged: false`, `allowPrivilegeEscalation: false`, `readOnlyRootFilesystem: true`, and CPU/memory limits.
+- **Healthcare Governance & Compliance (GRC):**
+  - *GDPR Article 33:* Mandatory 72-hour notification to supervisory authority upon discovering a personal data breach; extraterritorial reach applies to EU patient records.
+  - *HIPAA Safeguards:* Administrative (access review policies, staff training), Physical (data center badges, device disk encryption), and Technical (AES-256 encryption at rest, TLS 1.3, MFA, RBAC).
+  - *Three Protection Controls:* 1. Technical (encryption at rest/transit, MFA, RBAC); 2. Administrative (least privilege audits, IR policy); 3. Physical (secure facility access, laptop BitLocker).
+  - *ENISA:* European Union Cybersecurity Agency &rarr; Advisory agency providing best practices and threat reports (**NOT statutory law**).
+  - *Compensating Control:* Alternative security measure implemented when primary control is infeasible (e.g. isolated network segment when legacy system lacks MFA).
+- **Continuous Security Monitoring (CSM):**
+  - Centralized log aggregation into SIEM (Microsoft Sentinel, Splunk, Elastic) with UTC clock synchronization (NTP).
+  - Anomaly detection on outbound egress traffic (to immediately catch data exfiltration).
+  - Detection of privilege escalation, bulk secret reading, and unauthorized container creations.
+- **Incident Response 6-Phase Lifecycle:**
+  1. *Preparation:* IR policy, designated incident response team, playbooks, verified offline backups.
+  2. *Detection & Analysis:* Alert triage, SIEM correlation, scope determination (40,000 patient records), identifying IOCs.
+  3. *Containment:* Short-term: revoke leaked GitHub token, isolate compromised pods/worker nodes, block attacker IP address. Long-term: apply NetworkPolicies to prevent lateral spread.
+  4. *Eradication:* Remove malicious package from `requirements.txt`, patch vulnerabilities, re-image compromised nodes, rotate database password and all Kubernetes Secrets.
+  5. *Recovery:* Redeploy clean, signed images from approved registry; restore database from clean backup; verify service health; heighten monitoring.
+  6. *Lessons Learned:* Post-mortem root cause analysis (RCA), update pipeline security gates (mandatory secret scanning and SCA), notify EU data protection authority within 72 hours under GDPR Article 33.
+  - *Digital Forensics & Chain of Custody:* Create bit-stream disk/memory images; verify SHA-256 hashes; work strictly on copies (never live original); document every transfer and custodian to ensure evidence admissibility in legal proceedings.
